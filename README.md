@@ -55,13 +55,14 @@ Using glob configuration `jsonSchema`, one or more JSON schema files can be cons
 This allows writing modern JSON schema which can be used internally and distributed separately for validating data, but that can still be easily represented in the OpenAPI definition.
 
 The following JSON schema features WILL be removed for OpenAPI compatibility:
-- $schema
+
+- \$schema
 - additionalItems
 - const
 - contains
 - dependencies
 - id
-- $id
+- \$id
 - patternProperties
 - propertyNames
 - if
@@ -75,6 +76,7 @@ Instances of `type` that are an array of types will be converted into a `oneOf` 
 Options can be provided at run-time, or they will be picked up from `.pj2openapirc.json` the current working directory.
 
 Options for all exported methods use the following interface:
+
 ```ts
 interface ProjectToOpenApiConfig {
   /** An array of globs for picking which files contain API information. */
