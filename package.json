@@ -32,7 +32,6 @@
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-dist": "^3.32.3",
     "ts-json-schema-generator": "^0.71.1",
-    "ts-to-openapi": "^1.0.2",
     "vinyl": "^2.2.0",
     "vinyl-fs": "^3.0.3",
     "yaml": "^1.10.0"
