@@ -114,3 +114,13 @@ interface ProjectToOpenApiConfig {
   port?: number
 }
 ```
+
+## API
+
+### `projectToOpenApi (options?: ProjectToOpenApiConfig): Promise<void>`
+
+Function for consuming configuration and files in a project, and merging resulting specs into an OpenAPI definition.
+
+### `viewOpenApi (options?: ProjectToOpenApiConfig, build: boolean = false): Promise<void>`
+
+Function for viewing the OpenAPI definition locally in-browser; on the terminal press CTRL+C to terminate, or manually monitor/kill the process using a third-party tool.

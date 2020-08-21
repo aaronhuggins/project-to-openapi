@@ -21,7 +21,10 @@ declare module 'project-to-openapi' {
     types?: string | string[]
     /** @default [] */
     expandTypes?: string[]
-    /** @default [] */
+    /**
+     * @description Removes properties from schemas during transformation process.
+     * @default []
+     */
     removeProps?: string[]
     /** @default true */
     detectGraphQL?: boolean
