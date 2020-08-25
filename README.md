@@ -6,9 +6,34 @@ Tools for writing living openapi standards into your project files.
 
 Install from NPM and require. Can be used in build tools like Gulp to create tasks to build and view the OpenAPI definition for the project.
 
-### Swagger JSDoc comments
+### Swagger JSDoc
 
-The build process uses `swagger-jsdoc` to find and consume properly formatted `@swagger` JSDoc tags in files passed using glob option `apis`. Such tags must be properly formatted YAML starting at the path property.
+The build process uses `swagger-jsdoc` to support documentation of APIs in-line with code. More information on this API, including more advanced concepts, check out their [documentation](https://github.com/Surnet/swagger-jsdoc#fundamental-concepts).
+
+#### **Definition**
+
+The build process supports a file named like `openapi.definition.js` or `swagger.definition.js`; it could also end in `.json` if no JavaScript is required for execution. The contents of this file are exactly as instructed by `swagger-jsdoc` for definitions.
+
+```js
+// Taken from https://github.com/Surnet/swagger-jsdoc/blob/master/example/v2/swaggerDef.js
+
+const host = `http://${process.env.IP}:${process.env.PORT}`
+
+module.exports = {
+  info: {
+    // API informations (required)
+    title: 'Hello World', // Title (required)
+    version: '1.0.0', // Version (required)
+    description: 'A sample API' // Description (optional)
+  },
+  host, // Host (optional)
+  basePath: '/' // Base path (optional)
+}
+```
+
+#### **Comments**
+
+JavaScript and TypeScript can be crawled to find and consume properly formatted `@swagger` JSDoc tags in files passed using glob option `apis`. Such tags must be properly formatted YAML starting at the path property.
 
 ```js
 /**
@@ -73,7 +98,7 @@ Instances of `type` that are an array of types will be converted into a `oneOf` 
 
 ## Configuration
 
-Options can be provided at run-time, or they will be picked up from `.pj2openapirc.json` the current working directory.
+Options can be provided at run-time, or they will be picked up from `.pj2openapirc` or `.pj2openapirc.json` the current working directory.
 
 Options for all exported methods use the following interface:
 
@@ -90,8 +115,10 @@ interface ProjectToOpenApiConfig {
    * TSDoc and JSDoc tags will be honored if they can be mapped to OAS schema tags.
    */
   typeScript?: string | string[]
-  /** Defaults to `swagger.definiton.js` in the current directory. */
+  /** Defaults to `openapi.definition.js` or `swagger.definition.js` in the current directory. */
   swaggerDefinition?: any
+  /** Defaults to `openapi.definition.js` or `swagger.definition.js` in the current directory. */
+  openapiDefinition?: any
   /** Defaults to built-in compiler options or tsconfig.json in the current directory. */
   tsconfig?: string
   /** @default true */
