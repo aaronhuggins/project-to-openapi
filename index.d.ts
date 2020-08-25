@@ -38,8 +38,8 @@ declare module 'project-to-openapi' {
     port?: number
   }
 
-  async function jsonSchemaToOpenApi (options: ProjectToOpenApiConfig): Promise<void>
-  async function typeScriptToOpenApi (options: ProjectToOpenApiConfig): Promise<void>
+  async function jsonSchemaToOpenApi (options?: ProjectToOpenApiConfig): Promise<void>
+  async function typeScriptToOpenApi (options?: ProjectToOpenApiConfig): Promise<void>
   async function projectToOpenApi (options?: ProjectToOpenApiConfig): Promise<void>
   async function viewOpenApi (options?: ProjectToOpenApiConfig, build: boolean = false): Promise<void>
 
