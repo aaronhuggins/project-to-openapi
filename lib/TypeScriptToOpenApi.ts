@@ -156,6 +156,7 @@ function convertTypeScript (path: string, options: ProjectToOpenApiConfig): stri
   return YAML.stringify(openapi)
 }
 
+/** Convert TypeScript files to valid OpenAPI YAML formats. */
 export async function typeScriptToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   return await new Promise((resolve, reject) => {
     const projectConfig = defaultOptions(options)

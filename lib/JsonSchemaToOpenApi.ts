@@ -58,6 +58,7 @@ function cleanJsonSchema (schema: Record<string, any>, removeProps: string[] = [
   return result
 }
 
+/** Convert JSON schema files to valid OpenAPI YAML formats. */
 export async function jsonSchemaToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   return await new Promise((resolve, reject) => {
     const projectConfig = defaultOptions(options)

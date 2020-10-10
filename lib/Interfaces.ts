@@ -10,9 +10,9 @@ export interface ProjectToOpenApiConfig {
    * TSDoc and JSDoc tags will be honored if they can be mapped to OAS schema tags.
    */
   typeScript?: string | string[]
-  /** Defaults to `swagger.definiton.js` in the current directory. */
+  /** Defaults to `openapi.definition.js` or `swagger.definition.js` in the current directory. */
   swaggerDefinition?: any
-  /** Defaults to `openapi.definiton.js` in the current directory. */
+  /** Defaults to `openapi.definition.js` or `swagger.definition.js` in the current directory. */
   openapiDefinition?: any
   /** Defaults to built-in compiler options or tsconfig.json in the current directory. */
   tsconfig?: string

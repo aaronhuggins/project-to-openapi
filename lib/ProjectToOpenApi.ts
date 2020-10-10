@@ -49,6 +49,7 @@ function removeEmptyJson (object: Record<string, any>): any {
   return result
 }
 
+/** Read JSDoc, JSON schema, and TypeScript definition files to construct an OpenAPI definition. */
 export async function projectToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   const projectConfig = defaultOptions(options)
 

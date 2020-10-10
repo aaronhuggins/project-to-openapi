@@ -23,6 +23,7 @@ function getSwaggerUIPath (filename: string) {
   }
 }
 
+/** View and optionally build a project OpenAPI definition. */
 export async function viewOpenApi (options?: ProjectToOpenApiConfig, build: false = false): Promise<void> {
   const projectConfig = defaultOptions(options)
   const uiPaths = getSwaggerUIPath(projectConfig.filename)
