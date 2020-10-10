@@ -1,8 +1,12 @@
 {
   "name": "project-to-openapi",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Tools for writing living openapi standards into your project files.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,11 +33,15 @@
   "dependencies": {
     "local-web-server": "^4.2.1",
     "open": "^7.2.0",
+    "strong-typeof": "^0.1.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-dist": "^3.32.4",
     "ts-json-schema-generator": "^0.72.1",
     "vinyl": "^2.2.0",
     "vinyl-fs": "^3.0.3",
     "yaml": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.8"
   }
 }

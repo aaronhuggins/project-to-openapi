@@ -1,11 +1,13 @@
-const { src, dest } = require('vinyl-fs')
-const { Transform } = require('stream')
-const { resolve: pathResolve } = require('path')
-const YAML = require('yaml')
-const { PROJECT_ASSETS, FOLDERS, UNSUPPORTED_KEYWORDS } = require('./Constants')
-const { defaultOptions, isType } = require('./Helpers')
+import { isType } from 'strong-typeof'
+import { src, dest } from 'vinyl-fs'
+import { Transform } from 'stream'
+import { resolve as pathResolve } from 'path'
+import * as YAML from 'yaml'
+import { PROJECT_ASSETS, FOLDERS, UNSUPPORTED_KEYWORDS } from './Constants'
+import { defaultOptions } from './Helpers'
+import type { ProjectToOpenApiConfig } from './Interfaces'
 
-function cleanJsonSchema (schema, removeProps = []) {
+function cleanJsonSchema (schema: Record<string, any>, removeProps: string[] = []): any {
   const result = Object.create(null)
   removeProps = [...UNSUPPORTED_KEYWORDS, ...removeProps]
 
@@ -16,7 +18,7 @@ function cleanJsonSchema (schema, removeProps = []) {
 
     if (isType(value, 'array')) {
       if (key === 'type') {
-        const oneOf = value.map(typeStr => {
+        const oneOf = value.map((typeStr: string) => {
           return { type: typeStr }
         })
 
@@ -56,7 +58,7 @@ function cleanJsonSchema (schema, removeProps = []) {
   return result
 }
 
-async function jsonSchemaToOpenApi (options) {
+export async function jsonSchemaToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   return await new Promise((resolve, reject) => {
     const projectConfig = defaultOptions(options)
 
@@ -89,8 +91,4 @@ async function jsonSchemaToOpenApi (options) {
       reject(error)
     }
   })
-}
-
-module.exports = {
-  jsonSchemaToOpenApi
 }

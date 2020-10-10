@@ -1,11 +1,12 @@
-const { existsSync } = require('fs')
-const { resolve: pathResolve } = require('path')
-const LocalWebServer = require('local-web-server')
-const open = require('open')
-const { defaultOptions } = require('./Helpers')
-const { projectToOpenApi } = require('./ProjectToOpenApi')
+import { existsSync } from 'fs'
+import { resolve as pathResolve } from 'path'
+import LocalWebServer from 'local-web-server'
+import open from 'open'
+import { defaultOptions } from './Helpers'
+import { projectToOpenApi } from './ProjectToOpenApi'
+import type { ProjectToOpenApiConfig } from './Interfaces'
 
-function getSwaggerUIPath (filename) {
+function getSwaggerUIPath (filename: string) {
   const nm = 'node_modules'
   const swagUi = 'swagger-ui-dist'
 
@@ -22,7 +23,7 @@ function getSwaggerUIPath (filename) {
   }
 }
 
-async function viewOpenApi (options, build = false) {
+export async function viewOpenApi (options?: ProjectToOpenApiConfig, build: false = false): Promise<void> {
   const projectConfig = defaultOptions(options)
   const uiPaths = getSwaggerUIPath(projectConfig.filename)
 
@@ -59,8 +60,4 @@ async function viewOpenApi (options, build = false) {
       reject(error)
     }
   })
-}
-
-module.exports = {
-  viewOpenApi
 }

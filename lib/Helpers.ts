@@ -1,19 +1,10 @@
-const { resolve: pathResolve } = require('path')
-const { readFileSync } = require('fs')
-const { PROJECT_CONFIG, PROJECT_GLOBS } = require('./Constants')
+import { isType } from 'strong-typeof'
+import { resolve as pathResolve } from 'path'
+import { readFileSync } from 'fs'
+import { PROJECT_CONFIG, PROJECT_GLOBS } from './Constants'
+import type { ProjectToOpenApiConfig } from './Interfaces'
 
-function isType (value, expectedType, orElseType) {
-  const validTypes = [expectedType, orElseType]
-  let actualType = value === null ? 'null' : typeof value
-
-  if (validTypes.includes('array')) {
-    actualType = Array.isArray(value) ? 'array' : actualType
-  }
-
-  return validTypes.includes(actualType)
-}
-
-function tryRequire (path, fallback, json = false) {
+function tryRequire (path: string, fallback: string, json: boolean = false) {
   if (typeof path === 'string') {
     try {
       if (json) {
@@ -35,7 +26,7 @@ function tryRequire (path, fallback, json = false) {
   }
 }
 
-function defaultOptions (options) {
+export function defaultOptions (options: ProjectToOpenApiConfig) {
   const pj2OpenApiPath = pathResolve('.', PROJECT_CONFIG)
 
   if (typeof options === 'undefined') {
@@ -81,9 +72,4 @@ function defaultOptions (options) {
     filename: isType(options.filename, 'string') ? options.filename : 'openapi.yaml',
     port: isType(options.port, 'number') ? options.port : 9000
   }
-}
-
-module.exports = {
-  defaultOptions,
-  isType
 }

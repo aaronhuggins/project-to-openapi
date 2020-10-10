@@ -1,15 +1,17 @@
-const { src, dest } = require('vinyl-fs')
-const { createGenerator } = require('ts-json-schema-generator')
-const { Transform } = require('stream')
-const { resolve: pathResolve } = require('path')
-const Vinyl = require('vinyl')
-const YAML = require('yaml')
-const { PROJECT_ASSETS, FOLDERS } = require('./Constants')
-const { defaultOptions, isType } = require('./Helpers')
+import { isType } from 'strong-typeof'
+import { src, dest } from 'vinyl-fs'
+import { createGenerator, Config } from 'ts-json-schema-generator'
+import { Transform } from 'stream'
+import { resolve as pathResolve } from 'path'
+import Vinyl from 'vinyl'
+import * as YAML from 'yaml'
+import { PROJECT_ASSETS, FOLDERS } from './Constants'
+import { defaultOptions } from './Helpers'
+import type { ProjectToOpenApiConfig } from './Interfaces'
 
-function createGeneratorConfig (path, options) {
+function createGeneratorConfig (path: string, options: ProjectToOpenApiConfig): Config {
   const { tsconfig, skipTypeCheck = true } = options
-  const generatorConfig = {
+  const generatorConfig: Config = {
     path,
     tsconfig,
     skipTypeCheck,
@@ -24,7 +26,7 @@ function createGeneratorConfig (path, options) {
   return generatorConfig
 }
 
-function convertNullToNullable (object) {
+function convertNullToNullable (object: any): void {
   if (isType(object.type, 'array')) {
     const index = object.type.indexOf('null')
 
@@ -56,7 +58,7 @@ function convertNullToNullable (object) {
   }
 }
 
-function modifySchema (definitions, options) {
+function modifySchema (definitions: Record<string, any>, options: ProjectToOpenApiConfig): any {
   if (isType(definitions, 'undefined', 'null')) return
 
   const {
@@ -65,7 +67,7 @@ function modifySchema (definitions, options) {
     detectGraphQL = true,
     graphQLExpandedTypes = ['Maybe', 'Scalar']
   } = options
-  const isExpandable = (key, types) => types.some(type => key.startsWith(`${type}<`))
+  const isExpandable = (key: string, types: string[]) => types.some(type => key.startsWith(`${type}<`))
   const expandableTypes = Object.keys(definitions).filter(name => isExpandable(name, expandTypes))
   const expandableTypeMap = Object.create(null)
 
@@ -74,7 +76,7 @@ function modifySchema (definitions, options) {
   }
 
   // Expand types recursively
-  const recurse = (object, root = false) => {
+  const recurse = (object: Record<string, any>, root: boolean = false) => {
     const result = Object.create(null)
 
     for (const [key, value] of Object.entries(object || {})) {
@@ -127,7 +129,7 @@ function modifySchema (definitions, options) {
   return recurse(definitions, true)
 }
 
-function convertTypeScript (path, options) {
+function convertTypeScript (path: string, options: ProjectToOpenApiConfig): string {
   const { types = '*' } = options
   const definitions = []
   const generator = createGenerator(createGeneratorConfig(path, options))
@@ -154,7 +156,7 @@ function convertTypeScript (path, options) {
   return YAML.stringify(openapi)
 }
 
-async function typeScriptToOpenApi (options) {
+export async function typeScriptToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   return await new Promise((resolve, reject) => {
     const projectConfig = defaultOptions(options)
 
@@ -185,8 +187,4 @@ async function typeScriptToOpenApi (options) {
       reject(error)
     }
   })
-}
-
-module.exports = {
-  typeScriptToOpenApi
 }

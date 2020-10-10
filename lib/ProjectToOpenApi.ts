@@ -1,12 +1,14 @@
-const { resolve: pathResolve } = require('path')
-const { writeFileSync } = require('fs')
-const swaggerJSDoc = require('swagger-jsdoc')
-const YAML = require('yaml')
-const { defaultOptions, isType } = require('./Helpers')
-const { jsonSchemaToOpenApi } = require('./JsonSchemaToOpenApi')
-const { typeScriptToOpenApi } = require('./TypeScriptToOpenApi')
+import { isType } from 'strong-typeof'
+import { resolve as pathResolve } from 'path'
+import { writeFileSync } from 'fs'
+import swaggerJSDoc from 'swagger-jsdoc'
+import * as YAML from 'yaml'
+import { defaultOptions } from './Helpers'
+import { jsonSchemaToOpenApi } from './JsonSchemaToOpenApi'
+import { typeScriptToOpenApi } from './TypeScriptToOpenApi'
+import type { ProjectToOpenApiConfig } from './Interfaces'
 
-function removeEmptyJson (object) {
+function removeEmptyJson (object: Record<string, any>): any {
   if (object === null) return
 
   const result = Object.create(null)
@@ -47,7 +49,7 @@ function removeEmptyJson (object) {
   return result
 }
 
-async function projectToOpenApi (options) {
+export async function projectToOpenApi (options?: ProjectToOpenApiConfig): Promise<void> {
   const projectConfig = defaultOptions(options)
 
   if (!isType(projectConfig.jsonSchema, 'undefined', 'null')) {
@@ -74,8 +76,4 @@ async function projectToOpenApi (options) {
 
     writeFileSync(filename, JSON.stringify(openapi, null, 2), 'utf8')
   }
-}
-
-module.exports = {
-  projectToOpenApi
 }

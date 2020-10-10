@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "target": "es2020",
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["index.ts"],
+  "exclude": ["dist"]
+}
