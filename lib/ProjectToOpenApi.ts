@@ -18,19 +18,22 @@ function removeEmptyJson (object: Record<string, any>): any {
 
   for (const [key, value] of entries) {
     if (isType(value, 'array')) {
-      if (value.length > 0) {
-        const valueResult = value
-          .map(item => {
-            if (isType(item, 'object')) {
-              return removeEmptyJson(item)
-            }
+      const mapItem = item => {
+        if (isType(item, 'array')) {
+          return item.map(mapItem)
+        }
 
-            return item
-          })
-          .filter(item => !isType(item, 'undefined', 'null'))
+        if (isType(item, 'object')) {
+          return removeEmptyJson(item)
+        }
 
-        if (valueResult.length > 0) result[key] = valueResult
+        return item
       }
+      const valueResult = value
+        .map(mapItem)
+        .filter(item => !isType(item, 'undefined', 'null'))
+
+      result[key] = valueResult
 
       continue
     }
